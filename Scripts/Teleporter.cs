@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 public partial class Teleporter : Area2D
 {
@@ -20,7 +19,7 @@ public partial class Teleporter : Area2D
 	private bool hasTeleported = false;
 	#endregion
 
-	#region Methods
+	#region Public Methods
 	public override void _Ready()
 	{
 		if (targetTeleporter == null)
@@ -70,7 +69,9 @@ public partial class Teleporter : Area2D
 			hasTeleported = true;
 		}
 	}
+	#endregion
 
+	#region Private Methods
 	// Called on collision
 	private void _on_body_entered(CharacterBody2D body)
 	{
@@ -97,7 +98,9 @@ public partial class Teleporter : Area2D
 		hasCollided = true;
 		GD.Print($"Teleported {body.Name} from {this.Name} to {targetTeleporter.Name}");
 	}
+	#endregion
 
+	#region Error Handlers
 	private void ErrorNoTargetPortal()
 	{
 		GD.Print($"{this.Name} has no target teleporter.");

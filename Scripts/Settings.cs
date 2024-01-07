@@ -1,13 +1,14 @@
 using Godot;
-using System;
 
 public static class Settings
 {
 	public static void UpdateSettingsUI(Node node)
 	{
+		
 		string settings = string.Empty;
 		settings += $"FPS: {GetFPS()}\n";
-		settings += $"VSync: {GetVsync()}";
+		settings += $"VSync: {GetVsync()}\n";
+		settings += $"Coordinates: ({((int)((CharacterBody2D)node).Position.X)}, {((int)((CharacterBody2D)node).Position.Y)})";
 		((Label)node.GetNode<Camera2D>("Camera").FindChild("CanvasLayer").FindChild("DebugData")).Text = settings;
 	}
 

@@ -87,10 +87,15 @@ public partial class Teleporter : Area2D
 
 		player = body;
 
+		if(player.Name != "Player")
+		{
+			return;
+		}
+
 		// Start cooldown
 		timer.Start(cooldown);
 		hasCollided = true;
-		GD.Print($"Teleported {body.Name} from {this.Name} to {targetTeleporter.Name} @ Cooldown {timer.TimeLeft}s");
+		GD.Print($"Teleported {body.Name} from {this.Name} to {targetTeleporter.Name}");
 	}
 
 	private void ErrorNoTargetPortal()

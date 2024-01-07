@@ -1,3 +1,5 @@
 # Godot 4+ specific ignores
 .godot/
 .vs/
+.vs.rar
+/.vs/Battle Arena/FileContentIndex/150500b7-9925-43a5-a1fc-f426ed1a1f31.vsidx

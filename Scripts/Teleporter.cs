@@ -6,21 +6,21 @@ public partial class Teleporter : Area2D
 	#region Public Vars
 	[Export]
 	public Area2D targetTeleporter { get; set; }
-	public int cooldown;
+	public int cooldown = 15; // seconds
 	#endregion
 
 	#region Private Vars
-	private int baseCooldown = 10; // 30 seconds
+	private string baseName;
 	private Timer timer;
 	private Label label;
 	private CharacterBody2D player;
+	private Teleporter targetScript;
 
 	private bool hasCollided = false;
 	private bool hasTeleported = false;
 	#endregion
 
 	#region Methods
-	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		if (targetTeleporter == null)
@@ -30,7 +30,8 @@ public partial class Teleporter : Area2D
 		}
 
 		timer = this.GetChild<Timer>(1);
-		cooldown = baseCooldown;
+		baseName = this.Name;
+		targetScript = GetNodeOrNull<Teleporter>(targetTeleporter.GetPath());
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -42,20 +43,35 @@ public partial class Teleporter : Area2D
 			return;
 		}
 
+		if (timer.TimeLeft == 0)
+		{
+			hasTeleported = false;
+			hasCollided = false;
+			return;
+		}
+
+		if(timer.TimeLeft != cooldown)
+		{
+			return;
+		}
+
+		if (targetScript.hasCollided)
+		{
+			hasCollided = true;
+			hasTeleported = true;
+			timer.Start(cooldown);
+			return;
+		}
+
 		if (hasCollided && !hasTeleported)
 		{
 			// Teleport Player
 			player.Position = new Vector2(targetTeleporter.Position.X, targetTeleporter.Position.Y);
 			hasTeleported = true;
 		}
-
-		if(timer.TimeLeft == 0)
-		{
-			hasCollided = false;
-			hasTeleported = false;
-		}
 	}
 
+	// Called on collision
 	private void _on_body_entered(CharacterBody2D body)
 	{
 		if(targetTeleporter == null)
@@ -64,21 +80,17 @@ public partial class Teleporter : Area2D
 			return;
 		}
 
-		if(cooldown > 0 && hasCollided)
+		if((hasCollided && hasTeleported) || (targetScript.hasCollided && targetScript.hasTeleported))
 		{
 			return;
 		}
 
-		// Assign player
 		player = body;
 
 		// Start cooldown
 		timer.Start(cooldown);
-		GD.Print($"Teleported {body.Name} from {this.Name} to {targetTeleporter.Name} @ Cooldown {timer.TimeLeft}s");
-
-		targetScript.hasCollided = true;
-		targetScript.hasTeleported = true;
 		hasCollided = true;
+		GD.Print($"Teleported {body.Name} from {this.Name} to {targetTeleporter.Name} @ Cooldown {timer.TimeLeft}s");
 	}
 
 	private void ErrorNoTargetPortal()

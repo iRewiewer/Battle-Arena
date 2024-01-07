@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://dxnkyg887la7x"]
+
+[ext_resource type="Script" path="res://Scripts/Teleporter.cs" id="1_3n2of"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e5xdb"]
+size = Vector2(20, 10)
+
+[node name="Teleporter" type="Area2D"]
+script = ExtResource("1_3n2of")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_e5xdb")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

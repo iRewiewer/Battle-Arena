@@ -4871,4 +4871,21 @@ position = Vector2(864, 62)
 targetTeleporter = NodePath("../TeleporterSouth")
 
 [node name="EnemySpawnTimer" type="Timer" parent="."]
-autostart = true
+one_shot = true
+
+[node name="SpawnLocations" type="Node2D" parent="."]
+
+[node name="Spawn 1" type="Node2D" parent="SpawnLocations"]
+position = Vector2(254, 346)
+
+[node name="Spawn 2" type="Node2D" parent="SpawnLocations"]
+position = Vector2(391, 511)
+
+[node name="Spawn 3" type="Node2D" parent="SpawnLocations"]
+position = Vector2(567, 57)
+
+[node name="Spawn 4" type="Node2D" parent="SpawnLocations"]
+position = Vector2(841, 306)
+
+[node name="Spawn 5" type="Node2D" parent="SpawnLocations"]
+position = Vector2(864, 579)
